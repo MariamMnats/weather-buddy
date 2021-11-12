@@ -8,16 +8,18 @@ import { setCurrentLocation } from '../../store/actions';
 const PlacePicker = (props) => {
     const { currentLocation, setCurrentLocation } = props;
     const [search, setSearch] = useState(null);
-    const [timer, setTimer] = useState(null);
     const [options, setOptions] = useState([]);
 
     const setFilteredOptions = useCallback(data => setOptions(data.map(item => ({ value: item.id, label: item.name, ...item }))), []);
 
     useEffect(() => {
-        timer && clearTimeout(timer);
-        search && setTimer(setTimeout(() => {
-            weatherApi.getPlaces(search, setFilteredOptions);
-        }, 300));
+        let timer;
+        if (search) {
+            timer = setTimeout(() => {
+                weatherApi.getPlaces(search, setFilteredOptions);
+            }, 300);
+        }
+        return () => clearTimeout(timer);
     }, [search]);//eslint-disable-line react-hooks/exhaustive-deps
 
     return (

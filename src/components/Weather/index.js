@@ -9,10 +9,9 @@ import Forecast from './Forecast';
 
 
 
-function WeathertData(props) {
+function Weather(props) {
     const { currentLocation, forecastData, setForecastData } = props;
     useEffect(() => {
-        //  debugger;
         if (currentLocation) {
             weatherApi.getForecastData(currentLocation, setForecastData);
         }
@@ -46,4 +45,5 @@ const mapStateToProps = state => ({
     currentLocation: state.currentLocation
 });
 const mapDispatchToProps = dispatch => ({ setForecastData: (data) => dispatch(setForecastData(data)) });
-export default connect(mapStateToProps, mapDispatchToProps)(WeathertData);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Weather);
